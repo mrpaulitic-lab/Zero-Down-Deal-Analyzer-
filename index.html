@@ -3,79 +3,94 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Zero Down Deal Analyzer</title>
+<title>Elite Deal Analyzer</title>
 
 <style>
 body {
-  font-family: Arial, sans-serif;
-  background: #0f172a;
-  color: #fff;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #0f172a, #1e293b);
+  color: white;
   display: flex;
   justify-content: center;
   padding: 20px;
 }
 
-.container {
-  background: #1e293b;
-  padding: 20px;
-  border-radius: 10px;
-  max-width: 400px;
+.app {
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  padding: 25px;
+  max-width: 420px;
   width: 100%;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
 }
 
 h1 {
   text-align: center;
+  margin-bottom: 20px;
 }
 
 input {
   width: 100%;
-  padding: 10px;
-  margin: 8px 0;
-  border: none;
-  border-radius: 5px;
-}
-
-button {
-  width: 100%;
   padding: 12px;
-  background: #22c55e;
-  color: black;
+  margin: 8px 0;
+  border-radius: 8px;
   border: none;
-  border-radius: 5px;
-  font-weight: bold;
-  cursor: pointer;
+  font-size: 16px;
 }
 
-.result {
-  margin-top: 15px;
-  padding: 10px;
-  background: #334155;
-  border-radius: 5px;
+.results {
+  margin-top: 20px;
+  padding: 15px;
+  background: rgba(0,0,0,0.3);
+  border-radius: 10px;
 }
 
 .good { color: #22c55e; }
-.bad { color: #ef4444; }
 .warn { color: #facc15; }
+.bad { color: #ef4444; }
+
+.metric {
+  display: flex;
+  justify-content: space-between;
+  margin: 6px 0;
+}
+
+.cta {
+  margin-top: 20px;
+  padding: 12px;
+  background: #22c55e;
+  color: black;
+  text-align: center;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+}
 </style>
 </head>
 
 <body>
 
-<div class="container">
-<h1>🏠 Deal Analyzer</h1>
+<div class="app">
+<h1>🏠 Elite Deal Analyzer</h1>
 
-<input type="number" id="payment" placeholder="Monthly Payment">
-<input type="number" id="rent" placeholder="Rent Estimate">
-<input type="number" id="balance" placeholder="Mortgage Balance">
-<input type="number" id="arv" placeholder="ARV">
+<input type="number" id="payment" placeholder="Monthly Payment" oninput="analyze()">
+<input type="number" id="rent" placeholder="Rent Estimate" oninput="analyze()">
+<input type="number" id="balance" placeholder="Mortgage Balance" oninput="analyze()">
+<input type="number" id="arv" placeholder="ARV" oninput="analyze()">
 
-<button onclick="analyzeDeal()">Analyze Deal</button>
+<div class="results" id="output">
+Enter numbers to analyze deal...
+</div>
 
-<div class="result" id="output"></div>
+<div class="cta" onclick="alert('Upgrade system coming soon')">
+🚀 Get Full Investor System
+</div>
+
 </div>
 
 <script>
-function analyzeDeal() {
+function analyze() {
   let payment = parseFloat(document.getElementById('payment').value) || 0;
   let rent = parseFloat(document.getElementById('rent').value) || 0;
   let balance = parseFloat(document.getElementById('balance').value) || 0;
@@ -91,15 +106,15 @@ function analyzeDeal() {
 
   if (cashFlow >= 500 && equity >= 30000) {
     rating = "🔥 GREAT DEAL";
-    strategy = "Hold or Move FAST";
+    strategy = "Move FAST or Hold";
     color = "good";
   } else if (cashFlow >= 200 && equity >= 15000) {
     rating = "✅ GOOD DEAL";
-    strategy = "Strong Option";
+    strategy = "Strong Opportunity";
     color = "good";
   } else if (cashFlow >= 0) {
     rating = "⚠️ TIGHT DEAL";
-    strategy = "Be Careful";
+    strategy = "Proceed Carefully";
     color = "warn";
   } else {
     rating = "❌ BAD DEAL";
@@ -108,11 +123,12 @@ function analyzeDeal() {
   }
 
   document.getElementById('output').innerHTML = `
-    <p>💰 Cash Flow: $${cashFlow}</p>
-    <p>🏦 Equity: $${equity}</p>
-    <p>📆 Annual Profit: $${annual}</p>
-    <p class="${color}">📊 ${rating}</p>
-    <p>📈 Strategy: ${strategy}</p>
+    <div class="metric"><span>💰 Cash Flow:</span><span>$${cashFlow}</span></div>
+    <div class="metric"><span>🏦 Equity:</span><span>$${equity}</span></div>
+    <div class="metric"><span>📆 Annual Profit:</span><span>$${annual}</span></div>
+    <hr>
+    <div class="metric ${color}"><strong>${rating}</strong></div>
+    <div class="metric"><span>📈 Strategy:</span><span>${strategy}</span></div>
   `;
 }
 </script>
